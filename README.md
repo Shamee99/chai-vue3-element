@@ -1,23 +1,12 @@
-# Chai Admin
-
 <div align="center">
   <img src="src/assets/logo.svg" alt="Chai Admin Logo" width="120" height="120">
-  <h1>Chai Admin</h1>
-  <p>基于 Vue 3 + Element Plus 的现代化后台管理系统</p>
+  <h1>Chai Vue3 Element</h1>
+  <p>基于 Vue 3 + Element Plus 的现代化后台管理系统。基本框架：Vue3, Element Plus, TypeScript, Vite, Pinia, Lodash......</p>
 </div>
 
-<div align="center">
-
-[![Vue](https://img.shields.io/badge/Vue-3.5.17-4FC08D?style=flat-square&logo=vue.js)](https://vuejs.org/)
-[![Element Plus](https://img.shields.io/badge/Element%20Plus-2.10.3-409EFF?style=flat-square&logo=element)](https://element-plus.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.0-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-7.0.0-646CFF?style=flat-square&logo=vite)](https://vitejs.dev/)
-[![Pinia](https://img.shields.io/badge/Pinia-3.0.3-FFD859?style=flat-square&logo=pinia)](https://pinia.vuejs.org/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
-
-</div>
-
-### 配套后端代码：[chai-admin-service](https://github.com/Shamee99/chai-admin-service.git)
+### 配套后端代码：
+Gitee： [chai-admin-service](https://gitee.com/shamee/chai-admin-service)  
+Github：  [chai-admin-service](https://GitHub.com/Shamee99/chai-admin-service)
 
 
 ## ✨ 特性
@@ -259,7 +248,7 @@ VITE_OPEN_BROWSER=true
 如有问题或建议，请通过以下方式联系：
 
 - 提交 [Issue](https://github.com/your-username/chai-admin/issues)
-- 发送邮件至：your-email@example.com
+- 发送邮件至：793049488@qq.com
 
 ## 💡 学习交流
 
