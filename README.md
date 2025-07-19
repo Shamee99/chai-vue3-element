@@ -4,6 +4,9 @@
   <p>基于 Vue 3 + Element Plus 的现代化后台管理系统。基本框架：Vue3, Element Plus, TypeScript, Vite, Pinia, Lodash......</p>
 </div>
 
+**欢迎各位大佬指正和建议！** 如果您发现了问题或有更好的实现方案，请不吝赐教。
+
+
 ### 配套后端代码：
 Gitee： [chai-admin-service](https://gitee.com/shamee/chai-admin-service)  
 Github：  [chai-admin-service](https://GitHub.com/Shamee99/chai-admin-service)
