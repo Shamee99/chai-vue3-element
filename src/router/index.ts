@@ -75,6 +75,16 @@ const layoutRoute: RouteRecordRaw = {
         requiresAuth: true,
         hideInMenu: true
       }
+    },
+    {
+      path: '/demo/office',
+      name: 'OfficeDemo',
+      component: () => import('@/views/demo/OfficeDemo.vue'),
+      meta: {
+        title: 'Office文档预览',
+        requiresAuth: true,
+        hideInMenu: false
+      }
     }
   ]
 }
