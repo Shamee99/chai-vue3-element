@@ -66,7 +66,7 @@ Github：  [chai-admin-service](https://GitHub.com/Shamee99/chai-admin-service)
 
 ```bash
 # 克隆项目
-git clone https://github.com/your-username/chai-admin.git
+git clone https://gitee.com/shamee/chai-vue3-element.git
 
 # 进入项目目录
 cd chai-admin
@@ -250,7 +250,7 @@ VITE_OPEN_BROWSER=true
 
 如有问题或建议，请通过以下方式联系：
 
-- 提交 [Issue](https://github.com/your-username/chai-admin/issues)
+- 提交 [Issue](https://gitee.com/shamee/chai-vue3-element/issues)
 - 发送邮件至：793049488@qq.com
 
 ## 💡 学习交流
