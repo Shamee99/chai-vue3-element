@@ -1,3 +1,7 @@
+/**
+ * 应用入口文件
+ * 负责初始化Vue应用、插件、全局样式等
+ */
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'

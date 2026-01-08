@@ -5,7 +5,35 @@
 </template>
 
 <script setup lang="ts">
-// 应用入口组件
+import { onMounted } from 'vue'
+import { useUIStore } from '@/stores/ui-store'
+
+console.log('🎨 App component loaded')
+
+// Store
+const uiStore = useUIStore()
+
+// 组件挂载时初始化主题
+onMounted(() => {
+  console.log('🎨 App mounted, initializing theme...')
+  console.log('🎨 Current theme from store:', uiStore.currentTheme)
+
+  // 确保主题已初始化（因为ui-store会在首次使用时自动初始化）
+  const theme = uiStore.getCurrentThemeConfig()
+  console.log('🎨 Theme config:', theme)
+
+  console.log('🎨 Checking CSS variables...')
+  const root = document.documentElement
+  const primaryColor = root.style.getPropertyValue('--el-color-primary')
+  console.log('🎨 Current CSS variable --el-color-primary:', primaryColor)
+
+  if (!primaryColor) {
+    console.warn('🎨 CSS variable --el-color-primary is not set, applying theme colors...')
+    uiStore.initTheme()
+  } else {
+    console.log('🎨 CSS variables are already set')
+  }
+})
 </script>
 
 <style>
@@ -21,10 +49,11 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.5;
-  color: #333;
-  background-color: #f0f2f5;
+  color: var(--el-text-color-primary, #333);
+  background-color: var(--page-bg-color, #f0f2f5);
 }
 
 /* 滚动条样式 */
@@ -55,7 +84,7 @@ body {
 
 .el-menu-item,
 .el-sub-menu__title {
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: var(--sidebar-text-color, rgba(255, 255, 255, 0.85)) !important;
 }
 
 .el-menu-item:hover,
@@ -65,7 +94,7 @@ body {
 }
 
 .el-menu-item.is-active {
-  background-color: #1890ff !important;
-  color: #fff !important;
+  background-color: var(--sidebar-active-bg, #1890ff) !important;
+  color: var(--sidebar-active-text, #fff) !important;
 }
 </style>
