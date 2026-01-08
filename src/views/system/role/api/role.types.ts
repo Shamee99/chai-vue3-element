@@ -16,6 +16,10 @@ export interface Role {
   sortOrder: number
   /** 角色状态 (0: 禁用, 1: 启用) */
   status: number
+  /** 数据权限范围 1-全部数据 2-本部门及子部门数据 3-本部门数据 4-仅本人数据 5-自定义数据 */
+  dataScope?: number
+  /** 数据权限部门ID列表（当dataScope为自定义数据时使用） */
+  deptIds?: string[]
   /** 备注 */
   remark: string
   /** 创建时间 */
@@ -53,6 +57,10 @@ export interface RoleFormData {
   sortOrder: number
   /** 角色状态 */
   status: number
+  /** 数据权限范围 1-全部数据 2-本部门及子部门数据 3-本部门数据 4-仅本人数据 5-自定义数据 */
+  dataScope?: number
+  /** 数据权限部门ID列表（当dataScope为自定义数据时使用） */
+  deptIds?: string[]
   /** 备注 */
   roleDesc: string
 }
@@ -70,5 +78,28 @@ export enum RoleStatus {
   /** 禁用 */
   DISABLED = 0,
   /** 启用 */
-  ENABLED = 1
+  ENABLED = 1,
+}
+
+// 数据权限范围枚举
+export enum DataScope {
+  /** 全部数据权限 */
+  ALL = 1,
+  /** 本部门数据权限 */
+  DEPT = 2,
+  /** 本部门及以下数据权限 */
+  DEPT_AND_CHILD = 3,
+  /** 仅本人数据权限 */
+  SELF = 4,
+  /** 自定义数据权限 */
+  CUSTOM = 5,
+}
+
+// 数据权限范围显示标签
+export const DataScopeLabels: Record<DataScope, string> = {
+  [DataScope.ALL]: '全部数据',
+  [DataScope.DEPT]: '本部门数据',
+  [DataScope.DEPT_AND_CHILD]: '本部门及以下数据',
+  [DataScope.SELF]: '仅本人数据',
+  [DataScope.CUSTOM]: '自定义数据',
 }

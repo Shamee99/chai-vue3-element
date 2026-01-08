@@ -7,7 +7,6 @@ export interface PageResult<T> {
   pageCount: number
 }
 
-
 // 统一分页参数接口
 export interface PageParams {
   pageNo: number
@@ -20,5 +19,5 @@ export const DEFAULT_PAGINATION = {
   pageNo: 1,
   pageSize: 10,
   total: 0,
-  pageSizes: [10, 20, 50, 100]
+  pageSizes: [10, 20, 50, 100],
 } as const

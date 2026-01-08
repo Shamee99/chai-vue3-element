@@ -3,7 +3,7 @@ import type {
   Dept,
   DeptListRequest,
   DeptQueryParams,
-  DeptTree
+  DeptTree,
 } from '@/views/system/dept/api/dept.types'
 import type { PageResult } from '@/components/common/api/page.types.ts'
 
@@ -39,7 +39,6 @@ export const createDeptListParams = (
     order,
     param: {
       deptName: '',
-      status: undefined,
       parentId: '',
       leader: '',
       phone: '',
@@ -101,4 +100,3 @@ export const getDeptTree = async (): Promise<DeptTree[]> => {
 export const getDetail = async (id: string): Promise<Dept> => {
   return request.get<Dept>(`/sys/dept/detail/${id}`)
 }
-

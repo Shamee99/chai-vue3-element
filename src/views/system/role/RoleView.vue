@@ -94,12 +94,7 @@ import AddRole from './components/Add.vue'
 import EditRole from './components/Edit.vue'
 import PermissionRole from './components/Permission.vue'
 import type { Role, RoleQueryParams, RoleStatus } from './api/role.types'
-import {
-  createRoleListParams,
-  deleteRole,
-  getRoleList,
-  updateRoleStatus
-} from './api/role'
+import { createRoleListParams, deleteRole, getRoleList, updateRoleStatus } from './api/role'
 
 // 响应式数据
 const loading = ref(false)
@@ -272,8 +267,7 @@ const handleBatchDelete = async () => {
       },
     )
 
-    const ids = selectedRows.value.map((row) => row.id!)
-    // await batchDeleteRole(ids)
+    // await batchDeleteRole(selectedRows.value.map((row) => row.id!))
     ElMessage.success('批量删除成功')
     loadData()
   } catch (error) {

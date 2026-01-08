@@ -8,6 +8,8 @@ import {
   RoleListRequest,
   RolePermissionData,
   RoleQueryParams,
+  DataScope,
+  DataScopeLabels,
 } from './role.types'
 import type { PageResult } from '@/components/common/api/page.types.ts'
 import request from '@/utils/request.ts'
@@ -19,19 +21,25 @@ export const createRoleListParams = (
   orderBy?: string,
   order?: string,
 ): RoleListRequest => {
-  return {
+  const result: RoleListRequest = {
     pageNo,
     pageSize,
-    orderBy,
-    order,
     param: {
       roleName: '',
-      status: undefined,
       ...queryParams,
     },
   }
-}
 
+  if (orderBy !== undefined) {
+    result.orderBy = orderBy
+  }
+
+  if (order !== undefined) {
+    result.order = order
+  }
+
+  return result
+}
 
 /**
  * 获取角色列表
@@ -48,7 +56,6 @@ export const getRoleList = async (params: RoleListRequest): Promise<PageResult<R
 export const getEnableRoleList = async (): Promise<Role[]> => {
   return request.get<Role[]>('/sys/role/getEnableList')
 }
-
 
 /**
  * 新增角色
@@ -107,3 +114,15 @@ export const getRolePermissions = async (roleId: string): Promise<string[]> => {
 export const assignRolePermissions = async (data: RolePermissionData): Promise<void> => {
   return request.post(`/sys/role/assignPerms/${data.roleId}`, data.permissionIds)
 }
+
+/**
+ * 获取角色数据权限部门ID列表
+ * @param roleId 角色ID
+ * @returns 部门ID列表
+ */
+export const getRoleDeptIds = async (roleId: string): Promise<string[]> => {
+  return request.get(`/sys/role/getDeptIds/${roleId}`)
+}
+
+// 导出数据权限枚举和标签
+export { DataScope, DataScopeLabels }
