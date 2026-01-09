@@ -1,9 +1,6 @@
 <template>
   <div v-if="progressVisible" class="global-progress">
-    <div 
-      class="progress-bar" 
-      :style="{ width: `${progressValue}%` }"
-    ></div>
+    <div class="progress-bar" :style="{ width: `${progressValue}%` }"></div>
   </div>
 </template>
 
@@ -33,7 +30,12 @@ const progressValue = computed(() => uiStore.progressValue)
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #409eff 0%, #79bbff 50%, #409eff 100%);
+  background: linear-gradient(
+    90deg,
+    var(--el-color-primary, #409eff) 0%,
+    var(--el-color-primary-light-3, #79bbff) 50%,
+    var(--el-color-primary, #409eff) 100%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   transition: width 0.3s ease;
@@ -58,7 +60,12 @@ const progressValue = computed(() => uiStore.progressValue)
 
 :root.dark .progress-bar,
 [data-theme='dark'] .progress-bar {
-  background: linear-gradient(90deg, #409eff 0%, #79bbff 50%, #409eff 100%);
+  background: linear-gradient(
+    90deg,
+    var(--el-color-primary, #409eff) 0%,
+    var(--el-color-primary-light-3, #79bbff) 50%,
+    var(--el-color-primary, #409eff) 100%
+  );
   box-shadow: 0 0 10px rgba(64, 158, 255, 0.8);
 }
 </style>

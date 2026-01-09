@@ -9,6 +9,8 @@ import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+
+// 主题样式已移至 App.vue，以确保样式正确加载
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/style.css'
 import VueFilesPreview from 'vue-files-preview'

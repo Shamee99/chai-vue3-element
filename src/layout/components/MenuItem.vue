@@ -29,11 +29,7 @@
       <div class="popover-title">{{ menu.menuName }}</div>
       <div class="popover-menu-list">
         <template v-for="child in menu.children" :key="child.id">
-          <div
-            v-if="child.isVisible"
-            class="popover-menu-item"
-            @click="handleChildClick(child)"
-          >
+          <div v-if="child.isVisible" class="popover-menu-item" @click="handleChildClick(child)">
             <el-icon v-if="child.icon" class="menu-icon">
               <component :is="child.icon" />
             </el-icon>
@@ -127,7 +123,11 @@ const hasChildren = computed(() => {
 
 const isMenuItem = computed(() => {
   // 菜单类型(MenuType.MENU = 1)或者没有子菜单的目录都显示为可点击的菜单项
-  return (props.menu.menuType === 2 || (props.menu.menuType === 1 && (!props.menu.children || props.menu.children.length === 0))) && props.menu.isVisible
+  return (
+    (props.menu.menuType === 2 ||
+      (props.menu.menuType === 1 && (!props.menu.children || props.menu.children.length === 0))) &&
+    props.menu.isVisible
+  )
 })
 
 const isTopLevel = computed(() => {
@@ -176,7 +176,7 @@ const handleChildClick = (child: PermissionTreeNode) => {
 :deep(.el-sub-menu__title) {
   height: 48px;
   line-height: 48px;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--sidebar-text-color, rgba(255, 255, 255, 0.85));
   border-radius: 6px;
   width: calc(100% - 0px);
   display: flex;
@@ -186,12 +186,12 @@ const handleChildClick = (child: PermissionTreeNode) => {
 :deep(.el-menu-item:hover),
 :deep(.el-sub-menu__title:hover) {
   background-color: rgba(255, 255, 255, 0.1) !important;
-  color: #fff;
+  color: #ffffff !important;
 }
 
 :deep(.el-menu-item.is-active) {
-  background-color: #1890ff !important;
-  color: #fff;
+  background-color: var(--sidebar-active-bg, #1890ff) !important;
+  color: var(--sidebar-active-text, #fff) !important;
 }
 
 :deep(.el-menu-item .el-icon),
@@ -218,7 +218,7 @@ const handleChildClick = (child: PermissionTreeNode) => {
 }
 
 :deep(.el-sub-menu .el-menu-item) {
-  background-color: transparent;
+  background-color: transparent !important;
   margin-left: 24px;
   width: calc(100% - 40px);
 }
@@ -228,7 +228,7 @@ const handleChildClick = (child: PermissionTreeNode) => {
 }
 
 :deep(.el-sub-menu .el-menu-item.is-active) {
-  background-color: #1890ff !important;
+  background-color: var(--sidebar-active-bg, #1890ff) !important;
 }
 
 /* 确保菜单项文字不会被箭头遮挡 */

@@ -1,20 +1,7 @@
 <template>
-  <el-menu
-    class="menu-tree"
-    :default-active="activeMenu"
-    :collapse="collapsed"
-    background-color="#304156"
-    text-color="#bfcbd9"
-    active-text-color="#409EFF"
-    router
-  >
+  <el-menu class="menu-tree" :default-active="activeMenu" :collapse="collapsed" router>
     <template v-for="menu in menus" :key="menu.id">
-      <MenuItem
-        :menu="menu"
-        :collapsed="collapsed"
-        :level="0"
-        @menu-click="handleMenuClick"
-      />
+      <MenuItem :menu="menu" :collapsed="collapsed" :level="0" @menu-click="handleMenuClick" />
     </template>
   </el-menu>
 </template>

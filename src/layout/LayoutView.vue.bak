@@ -92,23 +92,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, watch, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { useMenuStore } from '@/stores/menu-store.ts'
-import { useUserStore } from '@/stores/user-store.ts'
-import { useUIStore } from '@/stores/ui-store.ts'
-import { useTabsStore } from '@/stores/tabs-store.ts'
-import { appConfig } from '@/utils/env'
-import MenuTree from './components/MenuTree.vue'
-import Breadcrumb from './components/Breadcrumb.vue'
-import UserDropdown from './components/UserDropdown.vue'
-import TabsView from './components/TabsView.vue'
-import ThemeSwitcher from './components/ThemeSwitcher.vue'
-import GlobalProgress from '@/components/common/GlobalProgress.vue'
-import { Operation, FullScreen, Aim } from '@element-plus/icons-vue'
-
 // 路由
 const route = useRoute()
+const router = useRouter()
 
 // Store
 const menuStore = useMenuStore()
@@ -198,7 +184,7 @@ onMounted(() => {
     },
     query: {},
     params: {},
-  }
+  } as any
   tabsStore.addTab(dashboardRoute)
 
   // 手动触发一次路由监听，确保当前路由被添加到标签页
@@ -222,15 +208,13 @@ onUnmounted(() => {
 .layout-container {
   display: flex;
   height: 100vh;
-  background-color: var(--page-bg-color, #f0f2f5) !important;
+  background-color: #f0f2f5;
 }
 
 .layout-sidebar {
   width: 240px;
-  background: var(--sidebar-bg-color, #001529) !important;
-  transition:
-    width 0.3s ease,
-    background-color 0.3s ease;
+  background: #001529;
+  transition: width 0.3s ease;
   overflow: hidden;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
@@ -285,14 +269,13 @@ onUnmounted(() => {
 
 .layout-header {
   height: 64px;
-  background: var(--header-bg-color, white) !important;
+  background: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  transition: background-color 0.3s ease;
 }
 
 .header-left {
@@ -328,12 +311,12 @@ onUnmounted(() => {
   padding: 8px;
   border-radius: 4px;
   transition: background-color 0.3s;
-  color: var(--el-text-color-regular, #666);
+  color: #666;
 }
 
 .header-action-btn:hover {
-  background-color: var(--el-fill-color-light, #f5f5f5);
-  color: var(--el-color-primary, #409eff);
+  background-color: #f5f5f5;
+  color: #409eff;
 }
 
 .github-icon {
@@ -341,7 +324,7 @@ onUnmounted(() => {
 }
 
 .header-action-btn:hover .github-icon {
-  color: var(--el-text-color-primary, #333);
+  color: #333;
 }
 
 .gitee-icon {
@@ -356,13 +339,12 @@ onUnmounted(() => {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  background: var(--page-bg-color, #f0f2f5) !important;
-  transition: background-color 0.3s ease;
+  background: #f0f2f5;
 }
 
 .layout-content.fullscreen {
   padding: 0;
-  background: #fff !important;
+  background: #ffffff;
 }
 
 /* 路由过渡动画 */

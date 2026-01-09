@@ -1,11 +1,6 @@
 <template>
   <div class="theme-switcher">
-    <el-dropdown
-      trigger="click"
-      placement="bottom-end"
-      @command="handleThemeChange"
-      @visible-change="handleDropdownVisible"
-    >
+    <el-dropdown trigger="click" placement="bottom-end" @command="handleThemeChange">
       <div class="theme-trigger" :title="currentThemeName" @click="handleTriggerClick">
         <div class="theme-preview">
           <div class="color-circle" :style="{ backgroundColor: currentThemeColor }"></div>
@@ -22,13 +17,13 @@
             </el-button>
           </div>
 
-          <el-dropdown-menu-item
+          <!-- 使用 div 而不是 el-dropdown-menu-item -->
+          <div
             v-for="theme in availableThemes"
             :key="theme.value"
-            :command="theme.value"
-            :class="{ 'is-active': theme.value === currentTheme }"
-            class="theme-item"
-            @click.native="handleItemClick(theme.value)"
+            :class="{ 'theme-item': true, 'is-active': theme.value === currentTheme }"
+            @click="handleThemeChange(theme.value)"
+            class="menu-item-wrapper"
           >
             <div class="theme-item-content">
               <div class="theme-color-preview">
@@ -47,7 +42,7 @@
                 <Check />
               </el-icon>
             </div>
-          </el-dropdown-menu-item>
+          </div>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -55,44 +50,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Sunny, Check } from '@element-plus/icons-vue'
 import { useUIStore } from '@/stores/ui-store'
-import {
-  themes,
-  getThemeByKey,
-  applyThemeColors,
-  DEFAULT_THEME_KEY,
-} from '@/utils/theme/theme.config'
-
-console.log('🎨 ThemeSwitcher component loaded')
+import { themes, getThemeByKey, type ThemeColors } from '@/utils/theme/theme.config'
 
 // Store
 const uiStore = useUIStore()
 
-// 调试状态
-const debugInfo = ref({
-  currentTheme: '',
-  availableThemesCount: 0,
-  uiStoreInitialized: false,
-})
-
 // 当前主题
-const currentTheme = computed(() => {
-  const theme = uiStore.currentTheme
-  debugInfo.value.currentTheme = theme
-  console.log('🎨 Current theme:', theme)
-  return theme
-})
+const currentTheme = computed(() => uiStore.currentTheme)
 
 // 可用主题列表
-const availableThemes = computed(() => {
-  const themesList = uiStore.getAvailableThemes()
-  debugInfo.value.availableThemesCount = themesList.length
-  console.log('🎨 Available themes:', themesList)
-  return themesList
-})
+const availableThemes = computed(() => uiStore.getAvailableThemes())
 
 // 当前主题名称
 const currentThemeName = computed(() => {
@@ -108,156 +79,43 @@ const currentThemeColor = computed(() => {
 
 // 主题颜色映射（用于预览）
 const themeColors = computed(() => {
-  const colors: Record<string, any> = {}
+  const colors: Record<string, ThemeColors> = {} as Record<string, ThemeColors>
   themes.forEach((theme) => {
     colors[theme.key] = theme.colors
   })
-  console.log('🎨 Theme colors:', colors)
   return colors
 })
 
 // 切换主题
 const handleThemeChange = (themeKey: string) => {
-  console.log('🎨 =====================')
-  console.log('🎨 Theme change triggered')
-  console.log('🎨 New theme key:', themeKey)
-  console.log('🎨 Current theme before change:', currentTheme.value)
-
-  try {
-    // 检查主题是否存在
-    const theme = getThemeByKey(themeKey)
-    if (!theme) {
-      console.error('🎨 Theme not found:', themeKey)
-      ElMessage.error('主题不存在')
-      return
-    }
-
-    console.log('🎨 Theme found:', theme)
-    console.log('🎨 Theme colors:', theme.colors)
-
-    // 强制刷新：先清除所有主题样式
-    console.log('🎨 Force clearing all theme styles')
-    const root = document.documentElement
-    Object.keys(theme.colors).forEach((property) => {
-      console.log(
-        '🎨 Clearing property:',
-        property,
-        'Old value:',
-        root.style.getPropertyValue(property),
-      )
-      root.style.removeProperty(property)
-    })
-
-    // 强制重绘
-    void root.offsetWidth
-
-    // 应用主题
-    console.log('🎨 Applying theme colors...')
-    uiStore.setTheme(themeKey)
-
-    console.log('🎨 Theme set successfully')
-    ElMessage.success(`已切换到${theme.name}`)
-
-    // 立即检查CSS变量
-    setTimeout(() => {
-      console.log('🎨 Checking CSS variables immediately...')
-      const primaryColor = root.style.getPropertyValue('--el-color-primary')
-      const sidebarBg = root.style.getPropertyValue('--sidebar-bg-color')
-      const pageBg = root.style.getPropertyValue('--page-bg-color')
-
-      console.log('🎨 CSS variables after theme change:')
-      console.log('  --el-color-primary:', primaryColor)
-      console.log('  --sidebar-bg-color:', sidebarBg)
-      console.log('  --page-bg-color:', pageBg)
-      console.log('🎨 Expected values:')
-      console.log('  --el-color-primary:', theme.colors['--el-color-primary'])
-      console.log('  --sidebar-bg-color:', theme.colors['--sidebar-bg-color'])
-      console.log('  --page-bg-color:', theme.colors['--page-bg-color'])
-    }, 100)
-
-    // 二次延迟检查
-    setTimeout(() => {
-      const allComputed = window.getComputedStyle(root)
-      console.log('🎨 Computed styles (window.getComputedStyle):')
-      Object.keys(theme.colors).forEach((property) => {
-        const computed = allComputed.getPropertyValue(property)
-        console.log(`  ${property}:`, computed)
-      })
-    }, 200)
-  } catch (error) {
-    console.error('🎨 Theme change error:', error)
-    ElMessage.error('主题切换失败')
+  const theme = getThemeByKey(themeKey)
+  if (!theme) {
+    ElMessage.error({ message: '主题不存在' })
+    return
   }
-}
 
-// 处理下拉菜单可见性
-const handleDropdownVisible = (visible: boolean) => {
-  console.log('🎨 Dropdown visible:', visible)
-  if (visible) {
-    console.log('🎨 Current theme when dropdown opens:', currentTheme.value)
-  }
-}
-
-// 处理触发按钮点击
-const handleTriggerClick = () => {
-  console.log('🎨 Trigger button clicked')
-  console.log('🎨 Current theme:', currentTheme.value)
-  console.log('🎨 Available themes count:', availableThemes.value.length)
-}
-
-// 处理菜单项点击
-const handleItemClick = (themeKey: string) => {
-  console.log('🎨 Theme item clicked:', themeKey)
+  uiStore.setTheme(themeKey)
+  ElMessage.success({ message: `已切换到${theme.name}` })
 }
 
 // 重置主题
 const handleResetTheme = () => {
-  console.log('🎨 =====================')
-  console.log('🎨 Reset theme triggered')
-
-  try {
-    uiStore.resetTheme()
-    ElMessage.success('已重置为默认主题')
-    console.log('🎨 Theme reset successfully')
-
-    // 延迟检查CSS变量
-    setTimeout(() => {
-      const root = document.documentElement
-      const primaryColor = root.style.getPropertyValue('--el-color-primary')
-      console.log('🎨 CSS variable after reset:', primaryColor)
-    }, 500)
-  } catch (error) {
-    console.error('🎨 Theme reset error:', error)
-    ElMessage.error('主题重置失败')
-  }
+  uiStore.resetTheme()
+  ElMessage.success({ message: '已重置为默认主题' })
 }
 
-// 监听主题变化，用于调试
-watch(currentTheme, (newTheme, oldTheme) => {
-  console.log('🎨 =====================')
-  console.log('🎨 Theme changed')
-  console.log('🎨 From:', oldTheme)
-  console.log('🎨 To:', newTheme)
-  console.log('🎨 =====================')
-})
+// 监听主题变化
+watch(
+  currentTheme,
+  (newTheme, oldTheme) => {
+    // 主题变化处理
+  },
+  { immediate: true },
+)
 
 // 组件挂载时检查初始化状态
 onMounted(() => {
-  console.log('🎨 =====================')
-  console.log('🎨 ThemeSwitcher mounted')
-  console.log('🎨 UI Store initialized')
-
-  // 检查当前CSS变量
-  const root = document.documentElement
-  const currentPrimary = root.style.getPropertyValue('--el-color-primary')
-  console.log('🎨 Current CSS variable:', currentPrimary)
-
-  // 初始化主题
   uiStore.initTheme()
-
-  debugInfo.value.uiStoreInitialized = true
-  console.log('🎨 Theme initialized')
-  console.log('🎨 =====================')
 })
 </script>
 
@@ -333,26 +191,35 @@ onMounted(() => {
   color: var(--el-color-primary-dark-2);
 }
 
-.theme-item {
+/* 菜单项样式 */
+.menu-item-wrapper {
+  cursor: pointer;
   padding: 0;
   margin: 4px 0;
   border-radius: 6px;
   transition: all 0.3s;
 }
 
-.theme-item:hover {
+.menu-item-wrapper:hover {
   background-color: var(--el-fill-color-light);
 }
 
-.theme-item.is-active {
+.menu-item-wrapper.is-active {
   background-color: var(--el-color-primary-light-9);
+}
+
+.theme-item {
+  padding: 10px 12px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .theme-item-content {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 12px;
   width: 100%;
 }
 
@@ -373,7 +240,7 @@ onMounted(() => {
     transform 0.2s;
 }
 
-.theme-item:hover .color-dot {
+.menu-item-wrapper:hover .color-dot {
   transform: scale(1.1);
 }
 
@@ -401,19 +268,19 @@ onMounted(() => {
   transition: all 0.3s;
 }
 
-/* 深色主题适配 */
+/* 暗色主题适配 */
 :root.dark .theme-trigger:hover,
 [data-theme='dark'] .theme-trigger:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-:root.dark .theme-item:hover,
-[data-theme='dark'] .theme-item:hover {
+:root.dark .menu-item-wrapper:hover,
+[data-theme='dark'] .menu-item-wrapper:hover {
   background-color: rgba(255, 255, 255, 0.08);
 }
 
-:root.dark .theme-item.is-active,
-[data-theme='dark'] .theme-item.is-active {
+:root.dark .menu-item-wrapper.is-active,
+[data-theme='dark'] .menu-item-wrapper.is-active {
   background-color: rgba(64, 158, 255, 0.15);
 }
 
@@ -423,7 +290,7 @@ onMounted(() => {
     min-width: 260px;
   }
 
-  .theme-item-content {
+  .theme-item {
     padding: 8px 10px;
   }
 
