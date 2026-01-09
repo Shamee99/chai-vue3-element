@@ -62,7 +62,7 @@
               <el-icon><Plus /></el-icon>
               新增菜单
             </el-button>
-            <el-button type="success" :disabled="selectedRows.length === 0" @click="handleExport">
+            <el-button type="primary" :disabled="selectedRows.length === 0" @click="handleExport">
               <el-icon><Download /></el-icon>
               导出选中
             </el-button>

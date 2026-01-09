@@ -46,29 +46,34 @@
               <el-icon><Plus /></el-icon>
               新增用户
             </el-button>
-            <el-button type="success" :disabled="selectedRows.length === 0" @click="handleExport">
+            <el-button type="primary" :disabled="selectedRows.length === 0" @click="handleExport">
               <el-icon><Download /></el-icon>
               导出选中
             </el-button>
           </template>
 
           <!-- 工具栏右侧 -->
-<!--          <template #toolbar-right>-->
-<!--            <el-tooltip content="下载模板" placement="top">-->
-<!--              <el-button type="text" @click="handleDownloadTemplate">-->
-<!--                <el-icon><Document /></el-icon>-->
-<!--              </el-button>-->
-<!--            </el-tooltip>-->
-<!--            <el-tooltip content="导入数据" placement="top">-->
-<!--              <el-button type="text" @click="handleImport">-->
-<!--                <el-icon><Upload /></el-icon>-->
-<!--              </el-button>-->
-<!--            </el-tooltip>-->
-<!--          </template>-->
+          <!--          <template #toolbar-right>-->
+          <!--            <el-tooltip content="下载模板" placement="top">-->
+          <!--              <el-button type="text" @click="handleDownloadTemplate">-->
+          <!--                <el-icon><Document /></el-icon>-->
+          <!--              </el-button>-->
+          <!--            </el-tooltip>-->
+          <!--            <el-tooltip content="导入数据" placement="top">-->
+          <!--              <el-button type="text" @click="handleImport">-->
+          <!--                <el-icon><Upload /></el-icon>-->
+          <!--              </el-button>-->
+          <!--            </el-tooltip>-->
+          <!--          </template>-->
 
           <!-- 角色列 -->
           <template #role="{ row }">
-            <el-tag v-for="role in row.roles" :type="role === '超级管理员' ? 'danger' : 'primary'" size="small" style="margin-right: 5px">
+            <el-tag
+              v-for="role in row.roles"
+              :type="role === '超级管理员' ? 'danger' : 'primary'"
+              size="small"
+              style="margin-right: 5px"
+            >
               {{ role }}
             </el-tag>
           </template>
@@ -181,7 +186,7 @@ const tableColumns = [
     },
   },
   { prop: 'createTime', label: '创建时间', width: 180, sortable: true },
-  { prop: 'actions', label: '操作', width: 270, fixed: 'right', slots: { default: 'actions' }}
+  { prop: 'actions', label: '操作', width: 270, fixed: 'right', slots: { default: 'actions' } },
 ]
 
 const searchForm = reactive({

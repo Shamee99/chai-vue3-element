@@ -42,7 +42,7 @@
 
       <!-- 工具栏左侧 -->
       <template #toolbar-left="{ selectedRows }">
-        <el-button type="success" :disabled="selectedRows.length === 0" @click="handleExport">
+        <el-button type="primary" :disabled="selectedRows.length === 0" @click="handleExport">
           <el-icon><Download /></el-icon>
           导出选中
         </el-button>

@@ -34,9 +34,9 @@
             <el-form-item label="部门名称">
               <el-input v-model="searchForm.deptName" placeholder="请输入部门名称" clearable />
             </el-form-item>
-<!--            <el-form-item label="负责人">-->
-<!--              <el-input v-model="searchForm.leader" placeholder="请输入负责人" clearable />-->
-<!--            </el-form-item>-->
+            <!--            <el-form-item label="负责人">-->
+            <!--              <el-input v-model="searchForm.leader" placeholder="请输入负责人" clearable />-->
+            <!--            </el-form-item>-->
             <el-form-item label="状态" style="width: 200px">
               <el-select v-model="searchForm.status" placeholder="请选择状态" clearable>
                 <el-option label="正常" value="1" />
@@ -51,7 +51,7 @@
               <el-icon><Plus /></el-icon>
               新增部门
             </el-button>
-            <el-button type="success" :disabled="selectedRows.length === 0" @click="handleExport">
+            <el-button type="primary" :disabled="selectedRows.length === 0" @click="handleExport">
               <el-icon><Download /></el-icon>
               导出选中
             </el-button>
@@ -59,7 +59,12 @@
 
           <!-- 关联角色 -->
           <template #roles="{ row }">
-            <el-tag style="margin-right: 5px;" v-for="role in row.roleNames" :type="role === '超级管理员' ? 'danger' : 'primary'" size="small">
+            <el-tag
+              style="margin-right: 5px"
+              v-for="role in row.roleNames"
+              :type="role === '超级管理员' ? 'danger' : 'primary'"
+              size="small"
+            >
               {{ role }}
             </el-tag>
           </template>
@@ -106,27 +111,10 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-import {
-  ElButton,
-  ElMessage,
-  ElMessageBox,
-  ElSwitch,
-  ElTag,
-} from 'element-plus'
-import {
-  Delete,
-  Download,
-  Edit,
-  Operation,
-  Plus,
-} from '@element-plus/icons-vue'
+import { ElButton, ElMessage, ElMessageBox, ElSwitch, ElTag } from 'element-plus'
+import { Delete, Download, Edit, Operation, Plus } from '@element-plus/icons-vue'
 import { Dept, DeptQueryParams } from './api/dept.types'
-import {
-  createDeptListParams,
-  deleteDept,
-  getDeptList,
-  updateDeptStatus,
-} from './api/dept'
+import { createDeptListParams, deleteDept, getDeptList, updateDeptStatus } from './api/dept'
 import ChaiTable from '@/components/common/ChaiTable.vue'
 import DeptTree from './components/DeptTree.vue'
 import DeptAdd from './components/Add.vue'
@@ -156,7 +144,7 @@ const paginationConfig = computed(() => ({
 const tableColumns = [
   { prop: 'deptName', label: '部门名称', width: 150, sortable: true },
   { prop: 'leader', label: '负责人', width: 120 },
-  { prop: 'roleNames', label: '关联角色', width: 200 , slots: {default: 'roles'} },
+  { prop: 'roleNames', label: '关联角色', width: 200, slots: { default: 'roles' } },
   { prop: 'phone', label: '联系电话', width: 150 },
   { prop: 'email', label: '邮箱', width: 200 },
   {
