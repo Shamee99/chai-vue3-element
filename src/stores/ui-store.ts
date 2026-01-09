@@ -121,49 +121,6 @@ export const useUIStore = defineStore('ui', () => {
     setTheme(DEFAULT_THEME_KEY)
   }
 
-  // 测试主题切换功能
-  const testThemeSwitching = (): void => {
-    console.log('🎨 =====================')
-    console.log('🎨 开始测试主题切换功能')
-
-    // 测试 1: 检查当前 CSS 变量
-    const root = document.documentElement
-    console.log('🎨 当前 CSS 变量:')
-    console.log('  --el-color-primary:', root.style.getPropertyValue('--el-color-primary'))
-    console.log('  --sidebar-bg-color:', root.style.getPropertyValue('--sidebar-bg-color'))
-    console.log('  --page-bg-color:', root.style.getPropertyValue('--page-bg-color'))
-
-    // 测试 2: 检查 localStorage
-    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY)
-    console.log('🎨 localStorage 中的主题:', savedTheme)
-
-    // 测试 3: 检查 store 中的当前主题
-    console.log('🎨 store 中的当前主题:', currentTheme.value)
-
-    // 测试 4: 应用一个新主题并验证
-    console.log('🎨 测试切换到天空蓝主题...')
-    setTheme('sky')
-
-    setTimeout(() => {
-      console.log('🎨 切换后的 CSS 变量:')
-      console.log('  --el-color-primary:', root.style.getPropertyValue('--el-color-primary'))
-      console.log('  --sidebar-bg-color:', root.style.getPropertyValue('--sidebar-bg-color'))
-      console.log('  --page-bg-color:', root.style.getPropertyValue('--page-bg-color'))
-
-      // 测试 5: 切换回默认主题
-      console.log('🎨 测试切换回默认主题...')
-      setTheme('default')
-
-      setTimeout(() => {
-        console.log('🎨 最终 CSS 变量:')
-        console.log('  --el-color-primary:', root.style.getPropertyValue('--el-color-primary'))
-        console.log('  --sidebar-bg-color:', root.style.getPropertyValue('--sidebar-bg-color'))
-        console.log('  --page-bg-color:', root.style.getPropertyValue('--page-bg-color'))
-        console.log('🎨 测试完成')
-        console.log('🎨 =====================')
-      }, 500)
-    }, 500)
-  }
 
   // 获取当前主题配置
   const getCurrentThemeConfig = () => {
@@ -257,6 +214,5 @@ export const useUIStore = defineStore('ui', () => {
     getAvailableThemes,
     saveStateToStorage,
     loadStateFromStorage,
-    testThemeSwitching,
   }
 })
