@@ -42,7 +42,7 @@
           生成代码
         </el-button>
         <el-button
-          type="success"
+          type="primary"
           :icon="Download"
           @click="handleBatchGenerate"
           :disabled="!selectedTables.length"
@@ -64,12 +64,7 @@
         <el-table-column prop="tableComment" label="表注释" min-width="200" show-overflow-tooltip />
         <el-table-column label="操作" width="120" align="center" fixed="right">
           <template #default="{ row }">
-            <el-button
-              type="primary"
-              link
-              :icon="Edit"
-              @click="handleGenerateSingle(row)"
-            >
+            <el-button type="primary" link :icon="Edit" @click="handleGenerateSingle(row)">
               生成
             </el-button>
           </template>
@@ -84,37 +79,23 @@
       width="600px"
       :close-on-click-modal="false"
     >
-      <el-form
-        ref="formRef"
-        :model="generatorForm"
-        :rules="formRules"
-        label-width="120px"
-      >
+      <el-form ref="formRef" :model="generatorForm" :rules="formRules" label-width="120px">
         <el-form-item label="表名" prop="tableName">
           <el-input v-model="generatorForm.tableName" disabled />
         </el-form-item>
         <el-form-item label="模块名" prop="moduleName">
-          <el-input
-            v-model="generatorForm.moduleName"
-            placeholder="如：chai-admin-student"
-          />
+          <el-input v-model="generatorForm.moduleName" placeholder="如：chai-admin-student" />
           <div class="form-tip">格式：chai-admin-{模块名}</div>
         </el-form-item>
         <el-form-item label="包名" prop="packageName">
-          <el-input
-            v-model="generatorForm.packageName"
-            placeholder="如：org.shamee.student"
-          />
+          <el-input v-model="generatorForm.packageName" placeholder="如：org.shamee.student" />
           <div class="form-tip">格式：org.shamee.{模块名}</div>
         </el-form-item>
         <el-form-item label="作者" prop="author">
           <el-input v-model="generatorForm.author" placeholder="请输入作者名称" />
         </el-form-item>
         <el-form-item label="表前缀" prop="tablePrefix">
-          <el-input
-            v-model="generatorForm.tablePrefix"
-            placeholder="如：sys_（可选）"
-          />
+          <el-input v-model="generatorForm.tablePrefix" placeholder="如：sys_（可选）" />
           <div class="form-tip">生成的类名会自动去除此前缀</div>
         </el-form-item>
         <el-form-item label="生成前端代码">
@@ -146,7 +127,7 @@ import type { TableInfo, GeneratorRequest } from './api/generator.types'
 // 搜索表单
 const searchForm = reactive({
   tableName: '',
-  tableComment: ''
+  tableComment: '',
 })
 
 // 表格数据
@@ -158,13 +139,13 @@ const selectedTables = ref<TableInfo[]>([])
 const filteredTableList = computed(() => {
   let list = tableList.value
   if (searchForm.tableName) {
-    list = list.filter(item =>
-      item.tableName.toLowerCase().includes(searchForm.tableName.toLowerCase())
+    list = list.filter((item) =>
+      item.tableName.toLowerCase().includes(searchForm.tableName.toLowerCase()),
     )
   }
   if (searchForm.tableComment) {
-    list = list.filter(item =>
-      item.tableComment?.toLowerCase().includes(searchForm.tableComment.toLowerCase())
+    list = list.filter((item) =>
+      item.tableComment?.toLowerCase().includes(searchForm.tableComment.toLowerCase()),
     )
   }
   return list
@@ -184,22 +165,20 @@ const generatorForm = reactive<GeneratorRequest>({
   author: 'shamee',
   generateFrontend: true,
   tablePrefix: '',
-  overwrite: false
+  overwrite: false,
 })
 
 // 表单验证规则
 const formRules: FormRules = {
   moduleName: [
     { required: true, message: '请输入模块名', trigger: 'blur' },
-    { pattern: /^chai-admin-[a-z]+$/, message: '格式：chai-admin-{模块名}', trigger: 'blur' }
+    { pattern: /^chai-admin-[a-z]+$/, message: '格式：chai-admin-{模块名}', trigger: 'blur' },
   ],
   packageName: [
     { required: true, message: '请输入包名', trigger: 'blur' },
-    { pattern: /^org\.shamee\.[a-z]+$/, message: '格式：org.shamee.{模块名}', trigger: 'blur' }
+    { pattern: /^org\.shamee\.[a-z]+$/, message: '格式：org.shamee.{模块名}', trigger: 'blur' },
   ],
-  author: [
-    { required: true, message: '请输入作者名称', trigger: 'blur' }
-  ]
+  author: [{ required: true, message: '请输入作者名称', trigger: 'blur' }],
 }
 
 // 加载表列表
@@ -289,24 +268,28 @@ const handleBatchGenerate = async () => {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         inputType: 'textarea',
-        inputValue: JSON.stringify({
-          moduleName: 'chai-admin-system',
-          packageName: 'org.shamee.system',
-          author: 'shamee',
-          generateFrontend: true,
-          tablePrefix: 'sys_',
-          overwrite: false
-        }, null, 2)
-      }
+        inputValue: JSON.stringify(
+          {
+            moduleName: 'chai-admin-system',
+            packageName: 'org.shamee.system',
+            author: 'shamee',
+            generateFrontend: true,
+            tablePrefix: 'sys_',
+            overwrite: false,
+          },
+          null,
+          2,
+        ),
+      },
     )
 
     const batchConfig = JSON.parse(config)
-    const tableNames = selectedTables.value.map(t => t.tableName)
+    const tableNames = selectedTables.value.map((t) => t.tableName)
 
     generating.value = true
     await batchGenerateCodeApi({
       tableNames,
-      ...batchConfig
+      ...batchConfig,
     })
 
     ElMessage.success('批量生成成功')
@@ -374,4 +357,3 @@ onMounted(() => {
   }
 }
 </style>
-

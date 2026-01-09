@@ -9,7 +9,7 @@
           class="tab-item"
           :class="{
             'is-active': activeTab === tab.fullPath,
-            'is-affix': tab.affix
+            'is-affix': tab.affix,
           }"
           @click="handleTabClick(tab)"
           @contextmenu.prevent="handleContextMenu($event, tab)"
@@ -81,11 +81,7 @@
         <el-icon><Remove /></el-icon>
         <span>关闭其他</span>
       </div>
-      <div
-        class="context-menu-item"
-        @click="handleCloseLeft"
-        :class="{ disabled: !canCloseLeft }"
-      >
+      <div class="context-menu-item" @click="handleCloseLeft" :class="{ disabled: !canCloseLeft }">
         <el-icon><Back /></el-icon>
         <span>关闭左侧</span>
       </div>
@@ -116,7 +112,7 @@ import {
   Remove,
   CircleClose,
   Back,
-  Right
+  Right,
 } from '@element-plus/icons-vue'
 
 // 路由
@@ -139,13 +135,13 @@ const activeTab = computed(() => tabsStore.activeTab)
 
 // 是否可以关闭当前标签页
 const canCloseCurrent = computed(() => {
-  const currentTab = tabList.value.find(tab => tab.fullPath === activeTab.value)
+  const currentTab = tabList.value.find((tab) => tab.fullPath === activeTab.value)
   return currentTab && !currentTab.affix && tabList.value.length > 1
 })
 
 // 是否有可关闭的标签页
 const hasCloseableTabs = computed(() => {
-  return tabList.value.some(tab => !tab.affix)
+  return tabList.value.some((tab) => !tab.affix)
 })
 
 // 右键菜单相关计算属性
@@ -155,14 +151,16 @@ const canCloseContextTab = computed(() => {
 
 const canCloseLeft = computed(() => {
   if (!contextMenuTab.value) return false
-  const index = tabList.value.findIndex(tab => tab.fullPath === contextMenuTab.value!.fullPath)
-  return index > 0 && tabList.value.slice(0, index).some(tab => !tab.affix)
+  const index = tabList.value.findIndex((tab) => tab.fullPath === contextMenuTab.value!.fullPath)
+  return index > 0 && tabList.value.slice(0, index).some((tab) => !tab.affix)
 })
 
 const canCloseRight = computed(() => {
   if (!contextMenuTab.value) return false
-  const index = tabList.value.findIndex(tab => tab.fullPath === contextMenuTab.value!.fullPath)
-  return index < tabList.value.length - 1 && tabList.value.slice(index + 1).some(tab => !tab.affix)
+  const index = tabList.value.findIndex((tab) => tab.fullPath === contextMenuTab.value!.fullPath)
+  return (
+    index < tabList.value.length - 1 && tabList.value.slice(index + 1).some((tab) => !tab.affix)
+  )
 })
 
 // 方法
@@ -284,7 +282,11 @@ const handleCloseRight = () => {
 onMounted(() => {
   // 监听点击事件，用于隐藏右键菜单
   document.addEventListener('click', (event) => {
-    if (contextMenuVisible.value && contextMenuRef.value && !contextMenuRef.value.contains(event.target as Node)) {
+    if (
+      contextMenuVisible.value &&
+      contextMenuRef.value &&
+      !contextMenuRef.value.contains(event.target as Node)
+    ) {
       hideContextMenu()
     }
   })
@@ -297,8 +299,8 @@ onUnmounted(() => {
 
 <style scoped>
 .tabs-view {
-  background: white;
-  border-bottom: 1px solid #e8eaec;
+  background: var(--el-bg-color, white);
+  border-bottom: 1px solid var(--el-border-color, #e8eaec);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
@@ -329,8 +331,8 @@ onUnmounted(() => {
   height: 28px;
   padding: 0 8px;
   margin-right: 3px;
-  background: #f5f7fa;
-  border: 1px solid #e4e7ed;
+  background: var(--el-fill-color, #f5f7fa);
+  border: 1px solid var(--el-border-color, #e4e7ed);
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.3s;
@@ -341,24 +343,24 @@ onUnmounted(() => {
 }
 
 .tab-item:hover {
-  background: #ecf5ff;
-  border-color: #b3d8ff;
+  background: var(--el-color-primary-light-9, #ecf5ff);
+  border-color: var(--el-color-primary-light-7, #b3d8ff);
 }
 
 .tab-item.is-active {
-  background: #409eff;
-  border-color: #409eff;
+  background: var(--el-color-primary, #409eff);
+  border-color: var(--el-color-primary, #409eff);
   color: white;
 }
 
 .tab-item.is-affix {
-  background: #f0f9ff;
-  border-color: #91d5ff;
+  background: var(--el-color-primary-light-9, #f0f9ff);
+  border-color: var(--el-color-primary-light-7, #91d5ff);
 }
 
 .tab-item.is-affix.is-active {
-  background: #1890ff;
-  border-color: #1890ff;
+  background: var(--el-color-primary-light-3, #66b1ff);
+  border-color: var(--el-color-primary-light-3, #66b1ff);
 }
 
 .tab-icon {
@@ -379,7 +381,7 @@ onUnmounted(() => {
 }
 
 .tab-close:hover {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--el-fill-color-dark, #ebedf0);
 }
 
 .tab-item.is-active .tab-close:hover {
@@ -399,10 +401,10 @@ onUnmounted(() => {
 .context-menu {
   position: fixed;
   z-index: 9999;
-  background: white;
-  border: 1px solid #e4e7ed;
+  background: var(--el-bg-color, white);
+  border: 1px solid var(--el-border-color, #e4e7ed);
   border-radius: 4px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--el-box-shadow-light, 0 0 12px rgba(0, 0, 0, 0.12));
   padding: 4px 0;
   min-width: 120px;
 }
@@ -417,11 +419,11 @@ onUnmounted(() => {
 }
 
 .context-menu-item:hover:not(.disabled) {
-  background: #f5f7fa;
+  background: var(--el-fill-color-light, #f5f7fa);
 }
 
 .context-menu-item.disabled {
-  color: #c0c4cc;
+  color: var(--el-text-color-disabled, #c0c4cc);
   cursor: not-allowed;
 }
 

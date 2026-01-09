@@ -33,7 +33,7 @@
           <el-icon><Plus /></el-icon>
           新增角色
         </el-button>
-        <el-button type="success" :disabled="selectedRows.length === 0" @click="handleBatchDelete">
+        <el-button type="primary" :disabled="selectedRows.length === 0" @click="handleBatchDelete">
           <el-icon><Delete /></el-icon>
           批量删除
         </el-button>
