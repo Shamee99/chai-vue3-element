@@ -177,7 +177,6 @@ const handleChildClick = (child: PermissionTreeNode) => {
   height: 48px;
   line-height: 48px;
   color: var(--sidebar-text-color, rgba(255, 255, 255, 0.85));
-  border-radius: 6px;
   width: calc(100% - 0px);
   display: flex;
   align-items: center;

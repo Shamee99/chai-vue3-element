@@ -244,15 +244,17 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   padding: 0 16px;
-  border-bottom: 1px solid #1f1f1f;
+  border-bottom: 1px solid var(--el-border-color-lighter, #1f1f1f);
+  transition: border-color 0.3s ease;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--sidebar-text-color, white);
   font-size: 18px;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .logo-img {
